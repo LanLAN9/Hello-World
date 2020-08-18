@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .clock {
+            margin: 50px auto;
+            width: 600px;
+            font-size: 40pt;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock">
+
+    </div>
+</body>
+<script>
+    //根据总时长获取小时、分钟、秒
+    function getT(totalSeconds) {
+        var hour, minute, second;
+        hour = Math.floor(totalSeconds / 3600)
+        hour = (hour) < 10 ? ("0" + hour) : hour;
+        minute = Math.floor(totalSeconds % 3600 / 60);
+        minute = (minute) < 10 ? ("0" + minute) : minute;
+        second = Math.floor(totalSeconds % 3600 % 60);
+        second = (second) < 10 ? ("0" + second) : second;
+        return [hour, minute, second];
+    }
+    window.onload = function () {
+        //获取输入的时间 并换算成秒
+        var time = prompt("请输入一个倒计时时间（分钟）：");
+        time = parseFloat(time);
+        var timeShow = document.querySelectorAll(".clock")[0];
+        var totalSeconds = time * 60-1;//页面从总时间后一秒开始倒计时
+        //页面刚加载后显示一次时间
+        var time_arr = getT(totalSeconds);
+        timeShow.innerHTML = time_arr[0] + ":" + time_arr[1] + ":" + time_arr[2];
+        //时间倒计时
+        var timmer = setInterval(() => {
+            if (totalSeconds) {
+                totalSeconds--;
+                time_arr = getT(totalSeconds);
+                timeShow.innerHTML = time_arr[0] + ":" + time_arr[1] + ":" + time_arr[2];
+            } else {
+                clearInterval(timmer);
+            }
+        }, 1000)
+    }
+</script>
+
+</html>
